@@ -1,5 +1,22 @@
 ﻿/*
- This code is designed to patch a PE file with a new section and shellcode. 
+The overall purpose of this code is to inject a given shellcode into a Windows Portable Executable (PE) file, 
+creating a new executable with the injected shellcode. The shellcode provided in the code demonstrates a message box, 
+but any other shellcode could be used instead. The modified executable, when run, will execute the injected shellcode 
+in addition to its original functionality.
+
+The code achieves this by performing the following steps:
+
+1.Reads the input PE file into memory.
+2.Allocates memory for the output PE file with enough space for the shellcode.
+3.Creates a new section in the output PE file to store the shellcode.
+4.Updates the new section header with relevant information (such as name, size, and characteristics).
+5.Copies the shellcode into the new section.
+6.Updates the virtual sizes of the sections, considering the possibility of the input file being built by an old compiler.
+7.Fixes the image size in memory and updates the entry point to point to the shellcode.
+8.Writes the output PE file to disk with a modified filename.
+
+As a result, this code can be used as a basis for developing malware or as a learning tool for understanding how executables 
+can be modified to include additional functionality or malicious payloads. 
  */
 #include <iostream>
 #include <Windows.h>
